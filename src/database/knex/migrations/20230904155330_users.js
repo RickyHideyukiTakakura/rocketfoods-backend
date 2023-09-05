@@ -4,7 +4,7 @@ exports.up = (knex) =>
     table.text("name").notNullable();
     table.text("email").notNullable();
     table.text("password").notNullable();
-    table.text("avatar").nullable();
+    table.boolean("is_admin").defaultTo(false);
     table.integer("created_at").default(knex.fn.now());
     table.integer("updated_at").default(knex.fn.now());
   });
