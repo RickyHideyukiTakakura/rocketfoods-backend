@@ -4,7 +4,13 @@ exports.up = (knex) =>
     table.text("name").notNullable();
     table.text("email").notNullable();
     table.text("password").notNullable();
-    table.boolean("is_admin").defaultTo(false);
+    table
+      .enum("role", ["admin", "customer"], {
+        useNative: true,
+        enumName: "roles",
+      })
+      .notNullable()
+      .defaultTo("customer");
     table.integer("created_at").default(knex.fn.now());
     table.integer("updated_at").default(knex.fn.now());
   });
