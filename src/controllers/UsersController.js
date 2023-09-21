@@ -26,9 +26,9 @@ class UsersController {
 
   async update(request, response) {
     const { name, email, role, password, old_password } = request.body;
-    const { id } = request.params;
+    const user_id = request.user.id;
 
-    const user = await knex("users").where({ id }).first();
+    const user = await knex("users").where({ id: user_id }).first();
 
     if (!user) {
       throw new AppError("User not found!");
@@ -37,7 +37,7 @@ class UsersController {
     if (email) {
       const userWithUpdatedEmail = await knex("users").where({ email }).first();
 
-      if (userWithUpdatedEmail && userWithUpdatedEmail.id !== parseInt(id)) {
+      if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id) {
         throw new AppError("Email already used!");
       }
     }
@@ -60,7 +60,7 @@ class UsersController {
       user.password = await hash(password, 8);
     }
 
-    await knex("users").where({ id }).update({
+    await knex("users").where({ id: user_id }).update({
       name: user.name,
       email: user.email,
       password: user.password,
