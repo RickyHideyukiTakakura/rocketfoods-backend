@@ -5,10 +5,8 @@ const ensureAuthenticated = require("../middlewares/ensureAuthenticated");
 const ingredientsRoutes = Router();
 const ingredientsController = new IngredientsController();
 
-ingredientsRoutes.get(
-  "/:dish_id",
-  ensureAuthenticated,
-  ingredientsController.show
-);
+ingredientsRoutes.use(ensureAuthenticated);
+
+ingredientsRoutes.get("/:dish_id", ingredientsController.show);
 
 module.exports = ingredientsRoutes;
