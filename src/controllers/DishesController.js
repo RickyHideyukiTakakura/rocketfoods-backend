@@ -24,6 +24,42 @@ class DishesController {
     return response.json();
   }
 
+  async update(request, response) {
+    const { name, description, price, category, ingredients } = request.body;
+    const { id } = request.params;
+
+    const dish = await knex("dishes").where({ id }).first();
+
+    if (!dish) {
+      throw new AppError("dish not found");
+    }
+
+    dish.name = name ?? dish.name;
+    dish.description = description ?? dish.description;
+    dish.price = price ?? dish.price;
+    dish.category = category ?? dish.category;
+
+    await knex("dishes").where({ id }).update({
+      name: dish.name,
+      description: dish.description,
+      price: dish.price,
+      category: dish.category,
+    });
+
+    if (ingredients) {
+      await knex("ingredients").where({ dish_id: id }).del();
+
+      const newIngredients = ingredients.map((ingredientName) => ({
+        dish_id: id,
+        name: ingredientName,
+      }));
+
+      await knex("ingredients").insert(newIngredients);
+    }
+
+    return response.json();
+  }
+
   async show(request, response) {
     const { id } = request.params;
 
