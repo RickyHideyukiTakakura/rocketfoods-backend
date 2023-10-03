@@ -78,6 +78,35 @@ class DishesController {
     });
   }
 
+  async index(request, response) {
+    const { search } = request.query;
+
+    let dishesSearch = knex("dishes")
+      .select([
+        "dishes.id",
+        "dishes.name",
+        "dishes.description",
+        "dishes.category",
+        "dishes.price",
+      ])
+      .leftJoin("ingredients", "dishes.id", "ingredients.dish_id")
+      .groupBy("dishes.id");
+
+    if (search) {
+      const filterSearch = search.trim();
+      dishesSearch.where(function () {
+        this.whereLike("dishes.name", `%${filterSearch}%`).orWhereIn(
+          "ingredients.name",
+          [filterSearch]
+        );
+      });
+    }
+
+    const dishes = await dishesSearch;
+
+    return response.json(dishes);
+  }
+
   async delete(request, response) {
     const { id } = request.params;
 

@@ -20,5 +20,6 @@ dishesRoutes.delete(
   dishesController.delete
 );
 dishesRoutes.get("/:id", dishesController.show);
+dishesRoutes.get("/", dishesController.index);
 
 module.exports = dishesRoutes;
