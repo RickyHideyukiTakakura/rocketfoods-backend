@@ -86,6 +86,7 @@ class DishesController {
         "dishes.id",
         "dishes.name",
         "dishes.description",
+        "dishes.image",
         "dishes.category",
         "dishes.price",
       ])
