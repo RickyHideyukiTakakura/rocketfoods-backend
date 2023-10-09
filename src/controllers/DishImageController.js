@@ -3,6 +3,14 @@ const DiskStorage = require("../providers/DiskStorage");
 const AppError = require("../utils/AppError");
 
 class DishImageController {
+  async create(request, response) {
+    const dishFilename = request.file.filename;
+    const diskStorage = new DiskStorage();
+    const filename = await diskStorage.saveFile(dishFilename);
+
+    return response.json({ filename });
+  }
+
   async update(request, response) {
     const { dish_id } = request.params;
     const dishFilename = request.file.filename;

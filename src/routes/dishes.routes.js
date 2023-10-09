@@ -14,6 +14,12 @@ const upload = multer(uploadConfig.MULTER);
 
 dishesRoutes.use(ensureAuthenticated);
 
+dishesRoutes.post(
+  "/image",
+  verifyAuthorization(["admin"]),
+  upload.single("image"),
+  dishImageController.create
+);
 dishesRoutes.post("/", verifyAuthorization(["admin"]), dishesController.create);
 dishesRoutes.put(
   "/:id",
@@ -29,6 +35,7 @@ dishesRoutes.get("/:id", dishesController.show);
 dishesRoutes.get("/", dishesController.index);
 dishesRoutes.patch(
   "/:dish_id/image",
+  verifyAuthorization(["admin"]),
   upload.single("image"),
   dishImageController.update
 );
