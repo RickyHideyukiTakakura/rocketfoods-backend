@@ -1,7 +1,5 @@
 const knex = require("../database/knex");
 const AppError = require("../utils/AppError");
-const DishImageController = require("./DishImageController");
-const DiskStorage = require("../providers/DiskStorage");
 
 class DishesController {
   async create(request, response) {
