@@ -23,6 +23,8 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 Este é o backend de um site que simula um restaurante, onde um administrador tem permissões para criar, editar e remover um prato. A seguir, você encontrá mais instruções sobre as principais funcionalidades:
 
+[link do deploy](https://rocketfoods-backend.onrender.com)
+
 ### 1. Rodar o servidor na máquina local
 
 #### Para rodar na maquina local:
